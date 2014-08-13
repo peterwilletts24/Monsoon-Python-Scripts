@@ -32,23 +32,22 @@ glob_tc = iris.Constraint(time=time_list)
 
 
 del glob_load
-try:
- for experiment_id in experiment_ids:
+for experiment_id in experiment_ids:
   for p in pressure_levels:
+   try:
+    expmin1 = experiment_id[:-1]
 
-   expmin1 = experiment_id[:-1]
+    fu = '/projects/cascade/pwille/moose_retrievals/%s/%s/%s_%s.pp' % (expmin1, experiment_id, diag, p )
 
-   fu = '/projects/cascade/pwille/moose_retrievals/%s/%s/%s_%s.pp' % (expmin1, experiment_id, diag, p )
+    print experiment_id
+    sys.stdout.flush()
 
-   print experiment_id
-   sys.stdout.flush()
-
-   cube  = iris.load_cube(fu,glob_tc)
+    cube  = iris.load_cube(fu,glob_tc)
    
-   for t, time_cube in enumerate (cube.slices(['time', 'latitude', 'longitude'])):
+    for t, time_cube in enumerate (cube.slices(['time', 'latitude', 'longitude'])):
      mean = cube.collapsed('time', iris.analysis.MEAN) 
-   iris.save((mean),'/projects/cascade/pwille/moose_retrievals/%s/%s/%s_%s_mean.pp' % (expmin1, experiment_id, diag, p))
+    iris.save((mean),'/projects/cascade/pwille/moose_retrievals/%s/%s/%s_%s_mean.pp' % (expmin1, experiment_id, diag, p))
 
-except Exception, e:
+   except Exception, e:
        print e
        pass

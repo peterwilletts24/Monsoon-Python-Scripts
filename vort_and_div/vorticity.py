@@ -45,8 +45,8 @@ for experiment_id in experiment_ids:
 
 #  Unrotate and update cube lat/lon coords, also change name of coords from grid_... to ...
 
- u,lats= update_coords(u)
- v,lats= update_coords(v)
+ u,lats,lons= update_coords(u)
+ v,lats,lons= update_coords(v)
    
  for i, coord in enumerate (u.coords()):
      if coord.standard_name=='pressure' or coord.long_name=='pressure':
