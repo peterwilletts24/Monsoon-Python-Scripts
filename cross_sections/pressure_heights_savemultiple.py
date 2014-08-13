@@ -71,21 +71,19 @@ for experiment_id in experiment_ids:
  for c_section_lon in np.arange(c_lon_min,c_lon_max, gap):
 
   if (c_section_lon != 0):
-     l=diag.coord('grid_longitude').nearest_neighbour_index(c_section_lon)
-     print l
-
-#     Constraint(coord_values={'grid_latitude':lambda cell: 0 < cell < 90})
-     print diag
-     #lon_slice = diag.extract(iris.Constraint(coord_values={'grid_longitude':lambda cell: cell==l}))
-     lon_slice = iris.analysis.interpolate.extract_nearest_neighbour(diag, [('grid_longitude', l)])
-
-#     pdb.set_trace()
-     print lon_slice
-     np.savez('/projects/cascade/pwille/Cross_Sections/%s_%s_height_XC_Longitude_%s' % (experiment_id, diagnostic, c_section_lon), xc=lon_slice)
+    print c_section_lon
+ 
+    l=diag.coord('grid_longitude').nearest_neighbour_index(c_section_lon) 
+    lon_slice = iris.analysis.interpolate.extract_nearest_neighbour(diag, [('grid_longitude', l)])
+    #print lon_slice
+    iris.save(lon_slice, '/projects/cascade/pwille/Cross_Sections/%s_%s_height_XC_Longitude_%s.pp' % (experiment_id, diagnostic, c_section_lon))
+    
   if (c_section_lat != 0):
-     xc=data[l,:,:]
-     np.savez('/projects/cascade/pwille/Cross_Sections/%s_%s_height_XC_Latitude_%s' % (experiment_id, diag, c_section_lat), xc=xc.data, coord=diag.coord('grid_longitude').points)
-
+     print c_section_lat
+    
+     l=diag.coord('grid_latitude').nearest_neighbour_index(c_section_lat) 
+     lat_slice = iris.analysis.interpolate.extract_nearest_neighbour(diag, [('grid_latitude', l)])
+     iris.save(lat_slice, '/projects/cascade/pwille/Cross_Sections/%s_%s_height_XC_Longitude_%s.pp' % (experiment_id, diagnostic, c_section_lon))
    #print xc
    #print xc.shape
    #print oro.coord('grid_latitude').points
