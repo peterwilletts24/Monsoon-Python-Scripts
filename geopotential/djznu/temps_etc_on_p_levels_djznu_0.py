@@ -36,17 +36,17 @@ def main():
       p_levels = [1000, 950, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100, 70, 50, 30, 20, 10]
       expmin1 = experiment_id[:-1]
       
-      #fname_heights = '/projects/cascade/pwille/moose_retrievals/%s/%s/15101.pp'% (expmin1, experiment_id)
+      fname_heights = '/projects/cascade/pwille/moose_retrievals/%s/%s/15101.pp'% (expmin1, experiment_id)
 
-      #fname_temp = '/projects/cascade/pwille/moose_retrievals/%s/%s/4_0.pp' % (expmin1, experiment_id)
-      #fname_sp_hum= '/projects/cascade/pwille/moose_retrievals/%s/%s/10.pp' % (expmin1, experiment_id)
-      #path_tempfile='/projects/cascade/pwille/temp/' 
+      fname_temp = '/projects/cascade/pwille/moose_retrievals/%s/%s/4_0.pp' % (expmin1, experiment_id)
+      fname_sp_hum= '/projects/cascade/pwille/moose_retrievals/%s/%s/10.pp' % (expmin1, experiment_id)
+      path_tempfile='/projects/cascade/pwille/temp/' 
       
-      fname_heights = '/data/local/eepdw/%s/%s/15101.pp'% (expmin1, experiment_id)
+      #fname_heights = '/data/local/eepdw/%s/%s/15101.pp'% (expmin1, experiment_id)
 
-      fname_temp = '/data/local/eepdw/%s/%s/4_0.pp' % (expmin1, experiment_id)
-      fname_sp_hum= '/data/local/eepdw/%s/%s/10.pp' % (expmin1, experiment_id)
-      path_tempfile='/data/local/eepdw' 
+      #fname_temp = '/data/local/eepdw/%s/%s/4_0.pp' % (expmin1, experiment_id)
+      #fname_sp_hum= '/data/local/eepdw/%s/%s/10.pp' % (expmin1, experiment_id)
+      #path_tempfile='/data/local/eepdw' 
 
 
       load_name_i='/408_pressure_levels_interp_pressure_%s_0' % experiment_id

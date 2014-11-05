@@ -21,7 +21,7 @@ import iris.analysis.cartography
 #unrotate = imp.load_source('util', '/home/pwille/python_scripts/modules/unrotate_pole.py')
 def main():
 
- diag_to_check='30201'
+ diag_to_check='4'
  experiment_ids = ['djznu', 'djznq', 'djzny', 'djznw', 'djzns', 'dkbhu', 'dkhgu','dkjxq', 'dklyu', 'dkmbq', 'dklwu', 'dklzq' ]
 
 
