@@ -20,7 +20,7 @@ pp_file_path='/projects/cascade/pwille/moose_retrievals/'
 
 regrid_model='djznw'
 regrid_model_min1=regrid_model[:-1]
-experiment_ids = ['djzny', 'djzns', 'dkmbq', 'dklyu', 'dklwu', 'dklzq', 'dkbhu', 'djznu', 'dkhgu' ] # All models minus global and 24kms (no need to regrid to itself)
+experiment_ids = ['djzny', 'djzns', 'dkmbq', 'dklyu', 'dklwu', 'dklzq'] # All models minus global and 24kms (no need to regrid to itself)
 #experiment_ids = ['djznw', 'djzny', 'djznq', 'dkjxq', 'dkmbq', 'dklzq']
 
 dtmindt = datetime.datetime(2011,8,19,0,0,0)

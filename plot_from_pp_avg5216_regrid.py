@@ -9,7 +9,7 @@ import os, sys
 
 import matplotlib
 
-#matplotlib.use('Agg') # Must be before importing matplotlib.pyplot or pylab!
+matplotlib.use('Agg') # Must be before importing matplotlib.pyplot or pylab!
 from matplotlib import rc
 from matplotlib.font_manager import FontProperties
 from matplotlib import rcParams
@@ -19,10 +19,10 @@ from mpl_toolkits.basemap import Basemap
 rc('font', family = 'serif', serif = 'cmr10')
 rc('text', usetex=True)
 
-rcParams['text.usetex']=True
-rcParams['text.latex.unicode']=True
-rcParams['font.family']='serif'
-rcParams['font.serif']='cmr10'
+#rcParams['text.usetex']=True
+#rcParams['text.latex.unicode']=True
+#rcParams['font.family']='serif'
+#rcParams['font.serif']='cmr10'
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -193,9 +193,9 @@ def main():
 
   plt.title('\n'.join(wrap('%s\n%s' % (main_title, model_info), 1000,replace_whitespace=False)), fontsize=16)
  
-  plt.show()
+  #plt.show()
  
-  #plt.savefig('%s%s/%s/%s_%s.png' % (save_path, experiment_id, pp_file, experiment_id, pp_file), format='png', bbox_inches='tight')
+  plt.savefig('%s%s/%s/%s_%s.png' % (save_path, experiment_id, pp_file, experiment_id, pp_file), format='png', bbox_inches='tight')
   
   plt.close()
  

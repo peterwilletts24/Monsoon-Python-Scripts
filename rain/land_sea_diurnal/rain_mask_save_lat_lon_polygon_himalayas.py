@@ -12,6 +12,11 @@ from shapely.geometry import Polygon
 
 from iris.coord_categorisation import add_categorised_coord
 
+import imp
+imp.load_source('UnrotateUpdateCube', '/home/pwille/python_scripts/modules/unrotate_and_update_pole.py')
+
+from UnrotateUpdateCube import *
+
 diag = 'avg.5216'
 cube_name_explicit='stratiform_rainfall_rate'
 cube_name_param='convective_rainfall_rate'
@@ -53,35 +58,6 @@ glob_tc = iris.Constraint(time=time_list)
 
 del glob_load
 
-def unrotate_pole_update_cube(cube):
-    lat = cube.coord('grid_latitude').points
-    lon = cube.coord('grid_longitude').points
-    
-    cs = cube.coord_system('CoordSystem')
-
-    if isinstance(cs, iris.coord_systems.RotatedGeogCS):
-        print ' %s  - %s - Unrotate pole %s' % (diag, experiment_id, cs)
-        lons, lats = np.meshgrid(lon, lat) 
-
-        lons,lats = iris.analysis.cartography.unrotate_pole(lons,lats, cs.grid_north_pole_longitude, cs.grid_north_pole_latitude)
-       
-        lon=lons[0]
-        lat=lats[:,0]
-                
-        for i, coord in enumerate (cube.coords()):
-            if coord.standard_name=='grid_latitude':
-                lat_dim_coord_cube = i
-            if coord.standard_name=='grid_longitude':
-                lon_dim_coord_cube = i
-
-        csur=cs.ellipsoid  
-     
-        cube.remove_coord('grid_latitude')
-        cube.remove_coord('grid_longitude')
-        cube.add_dim_coord(iris.coords.DimCoord(points=lat, standard_name='grid_latitude', units='degrees', coord_system=csur), lat_dim_coord_cube)
-        cube.add_dim_coord(iris.coords.DimCoord(points=lon, standard_name='grid_longitude', units='degrees', coord_system=csur), lon_dim_coord_cube)
-
-        return cube
 
 for experiment_id in experiment_ids:
 
