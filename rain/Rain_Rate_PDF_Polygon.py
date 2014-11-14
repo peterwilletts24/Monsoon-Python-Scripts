@@ -16,10 +16,12 @@ import numpy as np
 
 import pdb
 
-polygon = Polygon(((90., 25.8), (83., 26.3), (76.3, 30.), (82.7, 30.), (86.3, 28.5), (90., 27.8), (95., 27.8), (95., 25.8)))
+#Monsoon Trough
+polygon = Polygon(((73., 21.), (83., 16.), (87., 22.), (75., 27.)))
 
-
-experiment_ids = ['djznw', 'djzny', 'djznq', 'djzns', 'dkjxq', 'dklyu', 'dkmbq', 'dklwu', 'dklzq', 'dkbhu', 'djznu', 'dkhgu' ] # All 12
+#experiment_ids = ['djznw', 'djzny', 'djznq', 'djzns', 'dkjxq', 'dklyu', 'dkmbq', 'dklwu', 'dklzq', 'dkbhu', 'djznu', 'dkhgu' ] # All 12
+#experiment_ids=['djznq']
+experiment_ids = ['djznw', 'djzny', 'djznq', 'djzns', 'dkjxq', 'dklyu', 'dkmbq', 'dklwu', 'dklzq'] # All except 2.2, 1.5 and 2.2 big
 
 #  Needs to be run as script on monsoon or pp files need to be copied across to here
 
@@ -70,42 +72,36 @@ for experiment_id in experiment_ids:
  cube_r = iris.analysis.interpolate.regrid(cube, regrid_cube, mode='bilinear')
  mmperhour = iris.analysis.maths.multiply(cube_r,3600)
  
+ mmperhour.coord('grid_longitude').guess_bounds()
+ mmperhour.coord('grid_latitude').guess_bounds()
 
  pdf=[]
  pdf_map=[]
 
 
- bmin=0
-
- #pdb.set_trace()
+ bmin=0.
 
    # Calculate weights
-
+ #pdb.set_trace()
  l=iris.analysis.geometry.geometry_area_weights(mmperhour, polygon)
 
- bins=np.linspace(0,mmperhour.collapsed(('time', 'grid_latitude', 'grid_longitude'), iris.analysis.MAX).data, 20)
+ #bins=np.linspace(0,mmperhour.collapsed(('time', 'grid_latitude', 'grid_longitude'), iris.analysis.MAX).data, 20)
+
+ bins=np.linspace(0.,200., 200)
  for b in bins:
-            pdb.set_trace()
+            
             #pdf_map = mmperhour.collapsed('time', iris.analysis.COUNT, function=lambda values: ((values <= b) & (values>=bmin)))
             #iris.save(pdf_map, "/projects/cascade/pwille/moose_retrievals/%s/%s/%s_%s_pdf_map.pp" % (expmin1, experiment_id, experiment_id, diag), append=True) # Doesnt work - dtype issue
-            whole_area_pdf = mmperhour.collapsed('time', iris.analysis.COUNT, function=lambda values: ((values <= b) & (values>=bmin))).data
-            polygon_sum_pdf = np.ma.sum(whole_area_pdf.reshape(whole_area_pdf.shape[0], (whole_area_pdf.shape[1]*whole_area_pdf.shape[2])), 
-                                    axis=1, weights=l.reshape(whole_area_pdf.shape[0], (whole_area_pdf.shape[1]*whole_area_pdf.shape[2])))
+     whole_area_pdf = mmperhour.collapsed('time', iris.analysis.COUNT, function=lambda values: ((values <= b) & (values>=bmin))).data
+     polygon_sum_pdf = np.ma.sum(whole_area_pdf[l[0]>0])
 
-            pdf.append(polygon_sum_pdf)
+     pdf.append(polygon_sum_pdf)
 
-            
- 
- bmin=0
-
-
-
- for b in bins:
-            
-            pdf.append(float(mmperhour.collapsed(('time', 'grid_latitude', 'grid_longitude'), iris.analysis.COUNT, 
-                                            function=lambda values: ((values <= b) & (values>=bmin))).data))
-            bmin=b
- 
- np.save("/projects/cascade/pwille/moose_retrievals/%s/%s/%s_%s_pdf" %(expmin1, experiment_id, experiment_id, diag), pdf)
- np.save("/projects/cascade/pwille/moose_retrievals/%s/%s/%s_%s_pdf_map" %(expmin1, experiment_id, experiment_id, diag), pdf_map)
+           
+     if bmin==0.:
+         bmin=0.0000000001
+     else:
+         bmin=b 
+ np.savez("/projects/cascade/pwille/moose_retrievals/%s/%s/%s_%s_pdf_poylgon_monsoon_trough_0_200" %(expmin1, experiment_id, experiment_id, diag), pdf=pdf, bins=bins)
+ #np.savez("/projects/cascade/pwille/moose_retrievals/%s/%s/%s_%s_pdf_map" %(expmin1, experiment_id, experiment_id, diag), pdf_map=pdf_map, bins=bins)
 
